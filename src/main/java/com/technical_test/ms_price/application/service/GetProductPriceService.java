@@ -5,12 +5,13 @@ import com.technical_test.ms_price.application.dto.response.ProductPriceDTO;
 import com.technical_test.ms_price.application.port.inbound.GetProductPriceUseCase;
 import com.technical_test.ms_price.domain.model.Price;
 import com.technical_test.ms_price.domain.model.PriceSearchCriteria;
-import com.technical_test.ms_price.domain.ports.outbound.PriceRepository;
+import com.technical_test.ms_price.domain.port.outbound.PriceRepository;
 import com.technical_test.ms_price.domain.service.PricePrioritizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -22,10 +23,14 @@ public class GetProductPriceService implements GetProductPriceUseCase {
 
     @Override
     public Mono<ProductPriceDTO> getProductPriceByCriteria(ProductPriceQueryDTO productPriceQueryDTO) {
-        return priceRepository.findByCriteria(buildToPriceSearchCriteria(productPriceQueryDTO))
+        return priceRepository.findApplicablePricesByPriceSearchCriteria(buildToPriceSearchCriteria(productPriceQueryDTO))
                 .collectList()
-                .flatMap(prices -> Mono.just(pricePrioritizationService.findHighestPriorityPrice(prices)))
+                .flatMap(this::getApplicablePrice)
                 .map(buildToProductPriceDTO());
+    }
+
+    private Mono<Price> getApplicablePrice(List<Price> prices) {
+        return Mono.just(pricePrioritizationService.findHighestPriorityPrice(prices));
     }
 
     private Function<Price, ProductPriceDTO> buildToProductPriceDTO() {
