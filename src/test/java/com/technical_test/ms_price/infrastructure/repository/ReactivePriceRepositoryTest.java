@@ -1,10 +1,11 @@
 package com.technical_test.ms_price.infrastructure.repository;
 
-import com.technical_test.ms_price.domain.model.Price;
+import com.technical_test.ms_price.domain.model.PriceEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.r2dbc.core.DatabaseClient;
+import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @DataR2dbcTest
+@ActiveProfiles("test")
 public class ReactivePriceRepositoryTest {
 
     @Autowired
@@ -53,7 +55,7 @@ public class ReactivePriceRepositoryTest {
                 new BigDecimal("38.95"),
                 "EUR");
 
-        Flux<Price> prices = reactivePriceRepository.findApplicablePricesByProductIdAndBrandIdAndDate(35455, 1, LocalDateTime.parse("2020-06-15T10:00:00"));
+        Flux<PriceEntity> prices = reactivePriceRepository.findApplicablePricesByProductIdAndBrandIdAndDate(35455, 1, LocalDateTime.parse("2020-06-15T10:00:00"));
 
         StepVerifier.create(prices)
                 .expectNextMatches(price -> price.getPrice().equals(new BigDecimal("35.50")) || price.getPrice().equals(new BigDecimal("30.50")))
