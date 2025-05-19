@@ -13,7 +13,7 @@ public class PricePrioritizationService {
             return null;
         }
         return prices.stream()
-                .min(Comparator.comparingInt(Price::getPriority))
+                .max(Comparator.comparingInt(Price::getPriority))
                 .orElse(null);
     }
 }
