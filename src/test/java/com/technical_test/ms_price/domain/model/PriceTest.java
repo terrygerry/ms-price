@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class PriceTest {
+class PriceTest {
 
     @Test
-    public void canCreatePriceIntanceUsingBuilder(){
+    void canCreatePriceIntanceUsingBuilder(){
         String startDateTimeSt = "2020-06-14-00.00.00";
         String endDateTimeSt = "2020-12-31-23.59.59";
 

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @WebFluxTest(PriceController.class)
-public class PriceControllerTest {
+class PriceControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -26,7 +26,7 @@ public class PriceControllerTest {
     private GetProductPriceUseCase getProductPriceUseCase;
 
     @Test
-    public void getPriceListByParameters_ValidInput_ReturnsOk() {
+    void getPriceListByParameters_ValidInput_ReturnsOk() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss");
         LocalDateTime dateTime = LocalDateTime.parse("2020-06-14-10.00.00",formatter);

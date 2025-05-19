@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PricePrioritizationServiceTest {
+class PricePrioritizationServiceTest {
 
     private final PricePrioritizationService pricePrioritizationService = new PricePrioritizationService();
 
     @Test
-    public void findHighestPriorityPrice_success() {
+    void findHighestPriorityPrice_success() {
 
         List<PriceEntity> priceList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class PricePrioritizationServiceTest {
     }
 
     @Test
-    public void findHighestPriorityPrice_with_empty_list() {
+    void findHighestPriorityPrice_with_empty_list() {
 
         PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(Collections.emptyList());
 
@@ -68,7 +68,7 @@ public class PricePrioritizationServiceTest {
     }
 
     @Test
-    public void findHighestPriorityPrice_with_null_list() {
+    void findHighestPriorityPrice_with_null_list() {
 
         PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(null);
 
@@ -77,7 +77,7 @@ public class PricePrioritizationServiceTest {
     }
 
     @Test
-    public void findHighestPriorityPrice_with_a_single_object() {
+    void findHighestPriorityPrice_with_a_single_object() {
 
         List<PriceEntity> priceList = new ArrayList<>();
 

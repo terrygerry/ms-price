@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @DataR2dbcTest
 @ActiveProfiles("test")
-public class ReactivePriceRepositoryTest {
+class ReactivePriceRepositoryTest {
 
     @Autowired
     private ReactivePriceRepository reactivePriceRepository;
@@ -23,7 +23,7 @@ public class ReactivePriceRepositoryTest {
     private DatabaseClient databaseClient;
 
     @Test
-    public void findApplicablePricesByProductIdAndBrandIdAndDate_returnsCorrectPrices() {
+    void findApplicablePricesByProductIdAndBrandIdAndDate_returnsCorrectPrices() {
 
         insertTestData(1,
                 1,
