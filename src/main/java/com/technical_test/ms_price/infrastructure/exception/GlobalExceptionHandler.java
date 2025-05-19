@@ -1,5 +1,6 @@
 package com.technical_test.ms_price.infrastructure.exception;
 
+import com.technical_test.ms_price.infrastructure.common.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -25,8 +26,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidationException(WebExchangeBindException ex) {
         Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
-        if (errors.containsKey("dateFrom")  && errors.get("dateFrom").contains("Failed to convert")) {
-            errors.put("dateFrom", "El dateFrom debe tener este formato yyyy-MM-dd-HH.mm.ss");
+        if (errors.containsKey(Constants.DATEFROM_PARAMETER_NAME)  && errors.get(Constants.DATEFROM_PARAMETER_NAME).contains("Failed to convert")) {
+            errors.put(Constants.DATEFROM_PARAMETER_NAME, Constants.MESSAGE_DATEFROM_CORRECT_FORMAT);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
