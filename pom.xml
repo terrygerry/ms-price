@@ -73,6 +73,11 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -104,6 +109,53 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version> <executions>
+				<execution>
+					<id>prepare-agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>check</id>
+					<goals>
+						<goal>check</goal>
+					</goals>
+					<configuration>
+						<rules>
+							<rule implementation="org.jacoco.maven.RuleConfiguration">
+								<element>BUNDLE</element>
+								<limits>
+									<limit implementation="org.jacoco.report.check.Limit">
+										<counter>LINE</counter>
+										<value>COVEREDRATIO</value>
+										<minimum>0.80</minimum>
+									</limit>
+									<limit implementation="org.jacoco.report.check.Limit">
+										<counter>BRANCH</counter>
+										<value>COVEREDRATIO</value>
+										<minimum>0.70</minimum>
+									</limit>
+								</limits>
+							</rule>
+						</rules>
+						<excludes>
+							<exclude>com/technical_test/ms_price/infrastructure/exception/*</exclude>
+							<exclude>com/technical_test/ms_price/application/dto/*</exclude>
+						</excludes>
+					</configuration>
+				</execution>
+			</executions>
 			</plugin>
 		</plugins>
 	</build>
