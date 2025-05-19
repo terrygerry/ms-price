@@ -2,7 +2,7 @@ package com.technical_test.ms_price.application.service;
 
 import com.technical_test.ms_price.application.dto.request.ProductPriceQueryDTO;
 import com.technical_test.ms_price.application.dto.response.ProductPriceDTO;
-import com.technical_test.ms_price.domain.model.Price;
+import com.technical_test.ms_price.domain.model.PriceEntity;
 import com.technical_test.ms_price.domain.model.PriceSearchCriteria;
 import com.technical_test.ms_price.domain.port.outbound.PriceRepository;
 import com.technical_test.ms_price.domain.service.PricePrioritizationService;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @ExtendWith(MockitoExtension.class)
-public class GetProductPriceServiceTest {
+class GetProductPriceServiceTest {
 
     @Mock
     private PriceRepository priceRepository;
@@ -37,7 +37,7 @@ public class GetProductPriceServiceTest {
 
         ProductPriceQueryDTO queryDTO = new ProductPriceQueryDTO(35455, 1, LocalDateTime.parse("2020-06-15T10:00:00"));
 
-        Price price1 = Price.builder()
+        PriceEntity price1 = PriceEntity.builder()
                 .id(1)
                 .productId(35455)
                 .brandId(1)
@@ -48,7 +48,7 @@ public class GetProductPriceServiceTest {
                 .priority(0)
                 .currency("EUR")
                 .build();
-        Price price2 = Price.builder()
+        PriceEntity price2 = PriceEntity.builder()
                 .id(2)
                 .productId(35455)
                 .brandId(1)

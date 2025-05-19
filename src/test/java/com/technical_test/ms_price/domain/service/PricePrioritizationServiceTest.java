@@ -1,6 +1,6 @@
 package com.technical_test.ms_price.domain.service;
 
-import com.technical_test.ms_price.domain.model.Price;
+import com.technical_test.ms_price.domain.model.PriceEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +18,9 @@ public class PricePrioritizationServiceTest {
     @Test
     public void findHighestPriorityPrice_success() {
 
-        List<Price> priceList = new ArrayList<>();
+        List<PriceEntity> priceList = new ArrayList<>();
 
-        Price price1 = Price.builder()
+        PriceEntity price1 = PriceEntity.builder()
                 .brandId(1)
                 .startDate(buildToLocationDateTime("2020-06-14-00.00.00"))
                 .endDate(buildToLocationDateTime("2020-12-31-23.59.59"))
@@ -31,7 +31,7 @@ public class PricePrioritizationServiceTest {
                 .currency("EUR")
                 .build();
 
-        Price price2 = Price.builder()
+        PriceEntity price2 = PriceEntity.builder()
                 .brandId(1)
                 .startDate(buildToLocationDateTime("2020-06-14-15.00.00"))
                 .endDate(buildToLocationDateTime("2020-06-14-18.30.00"))
@@ -45,23 +45,23 @@ public class PricePrioritizationServiceTest {
         priceList.add(price1);
         priceList.add(price2);
 
-        Price priorityPrice = pricePrioritizationService.findHighestPriorityPrice(priceList);
+        PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(priceList);
 
-        Assertions.assertEquals(price1.getBrandId(),priorityPrice.getBrandId());
-        Assertions.assertEquals(price1.getStartDate(),priorityPrice.getStartDate());
-        Assertions.assertEquals(price1.getEndDate(),priorityPrice.getEndDate());
-        Assertions.assertEquals(price1.getPriceList(),priorityPrice.getPriceList());
-        Assertions.assertEquals(price1.getProductId(),priorityPrice.getProductId());
-        Assertions.assertEquals(price1.getPriority(),priorityPrice.getPriority());
-        Assertions.assertEquals(price1.getPrice(),priorityPrice.getPrice());
-        Assertions.assertEquals(price1.getCurrency(),priorityPrice.getCurrency());
+        Assertions.assertEquals(price2.getBrandId(),priorityPrice.getBrandId());
+        Assertions.assertEquals(price2.getStartDate(),priorityPrice.getStartDate());
+        Assertions.assertEquals(price2.getEndDate(),priorityPrice.getEndDate());
+        Assertions.assertEquals(price2.getPriceList(),priorityPrice.getPriceList());
+        Assertions.assertEquals(price2.getProductId(),priorityPrice.getProductId());
+        Assertions.assertEquals(price2.getPriority(),priorityPrice.getPriority());
+        Assertions.assertEquals(price2.getPrice(),priorityPrice.getPrice());
+        Assertions.assertEquals(price2.getCurrency(),priorityPrice.getCurrency());
 
     }
 
     @Test
     public void findHighestPriorityPrice_with_empty_list() {
 
-        Price priorityPrice = pricePrioritizationService.findHighestPriorityPrice(Collections.emptyList());
+        PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(Collections.emptyList());
 
         Assertions.assertNull(priorityPrice);
 
@@ -70,7 +70,7 @@ public class PricePrioritizationServiceTest {
     @Test
     public void findHighestPriorityPrice_with_null_list() {
 
-        Price priorityPrice = pricePrioritizationService.findHighestPriorityPrice(null);
+        PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(null);
 
         Assertions.assertNull(priorityPrice);
 
@@ -79,9 +79,9 @@ public class PricePrioritizationServiceTest {
     @Test
     public void findHighestPriorityPrice_with_a_single_object() {
 
-        List<Price> priceList = new ArrayList<>();
+        List<PriceEntity> priceList = new ArrayList<>();
 
-        Price price2 = Price.builder()
+        PriceEntity price2 = PriceEntity.builder()
                 .brandId(1)
                 .startDate(buildToLocationDateTime("2020-06-14-15.00.00"))
                 .endDate(buildToLocationDateTime("2020-06-14-18.30.00"))
@@ -94,7 +94,7 @@ public class PricePrioritizationServiceTest {
 
         priceList.add(price2);
 
-        Price priorityPrice = pricePrioritizationService.findHighestPriorityPrice(priceList);
+        PriceEntity priorityPrice = pricePrioritizationService.findHighestPriorityPrice(priceList);
 
         Assertions.assertEquals(price2.getBrandId(),priorityPrice.getBrandId());
         Assertions.assertEquals(price2.getStartDate(),priorityPrice.getStartDate());

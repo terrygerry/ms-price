@@ -3,7 +3,7 @@ package com.technical_test.ms_price.application.service;
 import com.technical_test.ms_price.application.dto.request.ProductPriceQueryDTO;
 import com.technical_test.ms_price.application.dto.response.ProductPriceDTO;
 import com.technical_test.ms_price.application.port.inbound.GetProductPriceUseCase;
-import com.technical_test.ms_price.domain.model.Price;
+import com.technical_test.ms_price.domain.model.PriceEntity;
 import com.technical_test.ms_price.domain.model.PriceSearchCriteria;
 import com.technical_test.ms_price.domain.port.outbound.PriceRepository;
 import com.technical_test.ms_price.domain.service.PricePrioritizationService;
@@ -29,11 +29,11 @@ public class GetProductPriceService implements GetProductPriceUseCase {
                 .map(buildToProductPriceDTO());
     }
 
-    private Mono<Price> getApplicablePrice(List<Price> prices) {
+    private Mono<PriceEntity> getApplicablePrice(List<PriceEntity> prices) {
         return Mono.just(pricePrioritizationService.findHighestPriorityPrice(prices));
     }
 
-    private Function<Price, ProductPriceDTO> buildToProductPriceDTO() {
+    private Function<PriceEntity, ProductPriceDTO> buildToProductPriceDTO() {
         return price -> new ProductPriceDTO(price.getProductId(),
                 price.getBrandId(),
                 price.getPriceList(),

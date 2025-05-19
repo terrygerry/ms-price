@@ -20,7 +20,7 @@ public class PriceTest {
 
         BigDecimal priceBigDecimal = new BigDecimal("35.50");
 
-        Price price = Price.builder()
+        PriceEntity price = PriceEntity.builder()
                 .brandId(1)
                 .startDate(startDate)
                 .endDate(endDate)
@@ -53,7 +53,7 @@ public class PriceTest {
 
         BigDecimal priceBigDecimal = new BigDecimal("35.50");
 
-        Price price = new Price(1,1,startDate,endDate,1,35455,0,priceBigDecimal,"EUR");
+        PriceEntity price = new PriceEntity(1,1,startDate,endDate,1,35455,0,priceBigDecimal,"EUR");
 
         Assertions.assertEquals(1, price.getBrandId());
         Assertions.assertEquals(startDate, price.getStartDate());
@@ -67,7 +67,7 @@ public class PriceTest {
 
     @Test
     void settersShouldModifyStateCorrectly() {
-        Price price = new Price();
+        PriceEntity price = new PriceEntity();
 
         String startDateTimeSt = "2020-06-14-00.00.00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss");
