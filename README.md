@@ -77,12 +77,16 @@ Se han aplicado los principios **SOLID** para promover un código más legible, 
 2.  **Construir con Maven:** Asegúrate de estar en el directorio raíz del proyecto y ejecuta: `mvn clean install`
 3.  **Ejecutar la aplicación (Local):** `mvn spring-boot:run`
     * La API estará disponible en `http://localhost:8080`.
-    * La documentación OpenAPI (Swagger UI) estará accesible en `http://localhost:8080/swagger-ui.html`.
+    * La documentación OpenAPI (Swagger UI) estará accesible en `http://localhost:8080/webjars/swagger-ui.html`.
 4.  **(Opcional) Ejecutar con Docker (Local):**
     * Asegúrate de tener Docker Desktop ejecutándose.
     * Construir la imagen: `docker build -t ms-price-api .`
     * Ejecutar el contenedor: `docker run -p 8080:8080 ms-price-api`
         * Tu API será accesible en `http://localhost:8080`.
+        * La documentación OpenAPI (Swagger UI) también estará disponible en `http://localhost:8080/webjars/swagger-ui.html`.
+5.  **Servicio Desplegado en Render:**
+    * La API está desplegada y accesible públicamente en: `https://ms-price.onrender.com`.
+    * La documentación OpenAPI (Swagger UI) para el servicio desplegado se encuentra en: `https://ms-price.onrender.com/webjars/swagger-ui/index.html`
 
 ---
 
