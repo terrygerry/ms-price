@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.technical_test</groupId>
 	<artifactId>ms-price</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ms-price</name>
 	<description>Service in charge of managing and calculating the prices of the products</description>
 	<url/>
