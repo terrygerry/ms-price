@@ -2,9 +2,10 @@ package com.technical_test.ms_price.application.service;
 
 import com.technical_test.ms_price.application.dto.request.ProductPriceQueryDTO;
 import com.technical_test.ms_price.application.dto.response.ProductPriceDTO;
+import com.technical_test.ms_price.application.mapper.PriceEntityMapper;
+import com.technical_test.ms_price.application.mapper.ProductPriceQueryDtoMapper;
 import com.technical_test.ms_price.application.port.inbound.GetProductPriceUseCase;
 import com.technical_test.ms_price.domain.model.PriceEntity;
-import com.technical_test.ms_price.domain.model.PriceSearchCriteria;
 import com.technical_test.ms_price.domain.port.outbound.PriceRepository;
 import com.technical_test.ms_price.domain.service.PricePrioritizationService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -20,33 +20,18 @@ public class GetProductPriceService implements GetProductPriceUseCase {
 
     private final PriceRepository priceRepository;
     private final PricePrioritizationService pricePrioritizationService;
+    private final ProductPriceQueryDtoMapper priceQueryDtoMapper;
+    private final PriceEntityMapper priceEntityMapper;
 
     @Override
     public Mono<ProductPriceDTO> getProductPriceByCriteria(ProductPriceQueryDTO productPriceQueryDTO) {
-        return priceRepository.findApplicablePricesByPriceSearchCriteria(buildToPriceSearchCriteria(productPriceQueryDTO))
+        return priceRepository.findApplicablePricesByPriceSearchCriteria(priceQueryDtoMapper.toPriceSearchCriteria(productPriceQueryDTO))
                 .collectList()
                 .flatMap(this::getApplicablePrice)
-                .map(buildToProductPriceDTO());
+                .map(priceEntityMapper::toProductPriceDTO);
     }
 
     private Mono<PriceEntity> getApplicablePrice(List<PriceEntity> prices) {
         return Mono.just(pricePrioritizationService.findHighestPriorityPrice(prices));
-    }
-
-    private Function<PriceEntity, ProductPriceDTO> buildToProductPriceDTO() {
-        return price -> new ProductPriceDTO(price.getProductId(),
-                price.getBrandId(),
-                price.getPriceList(),
-                price.getPrice(),
-                price.getStartDate(),
-                price.getEndDate());
-    }
-
-    private PriceSearchCriteria buildToPriceSearchCriteria(ProductPriceQueryDTO productPriceQueryDTO) {
-        return PriceSearchCriteria.builder()
-                .dateFrom(productPriceQueryDTO.dateFrom())
-                .brandId(productPriceQueryDTO.brandId())
-                .productId(productPriceQueryDTO.productId())
-                .build();
     }
 }
