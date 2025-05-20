@@ -40,3 +40,10 @@ jobs:
 
       - name: Verify build status
         run: echo "Docker image built and pushed successfully to GHCR!"
+
+      - name: Trigger Render Deploy
+        if: github.ref == 'refs/heads/develop'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          method: 'POST'
