@@ -2,13 +2,15 @@ package com.technical_test.ms_price.application.service;
 
 import com.technical_test.ms_price.application.dto.request.ProductPriceQueryDTO;
 import com.technical_test.ms_price.application.dto.response.ProductPriceDTO;
+import com.technical_test.ms_price.application.mapper.PriceEntityMapperImpl;
+import com.technical_test.ms_price.application.mapper.ProductPriceQueryDtoMapperImpl;
 import com.technical_test.ms_price.domain.model.PriceEntity;
 import com.technical_test.ms_price.domain.model.PriceSearchCriteria;
 import com.technical_test.ms_price.domain.port.outbound.PriceRepository;
 import com.technical_test.ms_price.domain.service.PricePrioritizationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,8 +31,15 @@ class GetProductPriceServiceTest {
     @Mock
     private PricePrioritizationService pricePrioritizationService;
 
-    @InjectMocks
+    private final ProductPriceQueryDtoMapperImpl priceQueryDtoMapper = new ProductPriceQueryDtoMapperImpl();
+    private final PriceEntityMapperImpl priceEntityMapper = new PriceEntityMapperImpl();
+
     private GetProductPriceService getProductPriceService;
+
+    @BeforeEach
+    void setUp() {
+        getProductPriceService = new GetProductPriceService(priceRepository,pricePrioritizationService,priceQueryDtoMapper,priceEntityMapper);
+    }
 
     @Test
     void getProductPriceByCriteria_validInput_returnsProductPriceDTO() {
