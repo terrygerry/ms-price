@@ -1,12 +1,12 @@
 package com.technical_test.ms_price.infrastructure.repository;
 
-import com.technical_test.ms_price.domain.model.PriceEntity;
+import com.technical_test.ms_price.infrastructure.repository.data.ProductPriceData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.test.context.ActiveProfiles;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
@@ -55,12 +55,14 @@ class ReactivePriceRepositoryTest {
                 new BigDecimal("38.95"),
                 "EUR");
 
-        Flux<PriceEntity> prices = reactivePriceRepository.findApplicablePricesByProductIdAndBrandIdAndDate(35455, 1, LocalDateTime.parse("2020-06-15T10:00:00"));
+        Mono<ProductPriceData> prices = reactivePriceRepository.findApplicablePricesByProductIdAndBrandIdAndDate(35455, 1, LocalDateTime.parse("2020-06-15T10:00:00"));
 
         StepVerifier.create(prices)
-                .expectNextMatches(price -> price.getPrice().equals(new BigDecimal("35.50")) || price.getPrice().equals(new BigDecimal("30.50")))
-                .expectNextMatches(price -> price.getPrice().equals(new BigDecimal("35.50")) || price.getPrice().equals(new BigDecimal("30.50")))
+                .expectNextMatches(price -> price.getPrice().equals(new BigDecimal("30.50")))
                 .verifyComplete();
+
+        truncateTestData();
+
     }
 
     private void insertTestData(Integer id, Integer brandId, LocalDateTime startDate, LocalDateTime endDate, Integer priceList, Integer productId, Integer priority, BigDecimal priceValue, String currency) {
@@ -75,6 +77,13 @@ class ReactivePriceRepositoryTest {
                 .bind(7, priceValue)
                 .bind(8, currency)
                 .fetch().rowsUpdated().block();
+    }
+
+    private void truncateTestData() {
+        databaseClient.sql("TRUNCATE TABLE prices")
+                .fetch()
+                .rowsUpdated()
+                .block();
     }
 
 }
