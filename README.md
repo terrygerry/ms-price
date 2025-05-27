@@ -47,9 +47,8 @@ Adoptamos la Arquitectura Hexagonal para aislar la lógica de negocio central (D
     * `port.inbound` (Interfaces `UseCase` que definen las operaciones que la aplicación expone, como `GetProductPriceUseCase`).
     * `service` (Implementación de los `UseCase` y coordinación de la lógica de negocio).
 * **Capa de Dominio (`.domain`):** El corazón de la aplicación, agnóstico a la infraestructura. Contiene:
-    * `model` (Entidades de negocio como `PriceEntity` y `PriceSearchCriteria`).
+    * `model` (Entidades de negocio como `ProductPrice` y `PriceSearchCriteria`).
     * `port.outbound` (Interfaces de los *puertos de salida* que el dominio necesita, como `PriceRepository`).
-    * `service` (Lógica de dominio puro, ej., `PricePrioritizationService`).
 * **Capa de Infraestructura (`.infrastructure`):** Implementa los *adaptadores* para interactuar con tecnologías externas. Aquí encontramos:
     * `controller` (Adaptadores de entrada para la API REST, como `PriceController`).
     * `exception` (Manejo global de excepciones, como `GlobalExceptionHandler`).
