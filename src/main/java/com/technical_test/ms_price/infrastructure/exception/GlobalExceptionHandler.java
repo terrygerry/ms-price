@@ -1,5 +1,6 @@
 package com.technical_test.ms_price.infrastructure.exception;
 
+import com.technical_test.ms_price.domain.exception.PriceNotFoundException;
 import com.technical_test.ms_price.infrastructure.api.response.ErrorResponse;
 import com.technical_test.ms_price.infrastructure.common.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(PriceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
@@ -40,10 +41,13 @@ public class GlobalExceptionHandler {
         FieldError dateFromFieldError = ex.getBindingResult().getFieldError(Constants.DATEFROM_PARAMETER_NAME);
 
         if (ex.getBindingResult().hasFieldErrors(Constants.DATEFROM_PARAMETER_NAME) &&
-                !Objects.isNull(dateFromFieldError) &&
-                !Objects.isNull(dateFromFieldError.getDefaultMessage()) &&
-                dateFromFieldError.getDefaultMessage().contains("Failed to convert")) {
-            details = Constants.DATEFROM_PARAMETER_NAME + ": " + Constants.MESSAGE_DATEFROM_CORRECT_FORMAT;
+                !Objects.isNull(dateFromFieldError)){
+
+            String defaultMessage = dateFromFieldError.getDefaultMessage();
+
+            if(!Objects.isNull(defaultMessage) && defaultMessage.contains("Failed to convert")) {
+                details = Constants.DATEFROM_PARAMETER_NAME + ": " + Constants.MESSAGE_DATEFROM_CORRECT_FORMAT;
+            }
         }
 
         ErrorResponse errorResponse = new ErrorResponse(

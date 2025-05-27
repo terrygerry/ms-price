@@ -1,6 +1,9 @@
-package com.technical_test.ms_price.domain.model;
+package com.technical_test.ms_price.infrastructure.repository.data;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -8,13 +11,12 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("prices")
-public class PriceEntity {
+public class ProductPriceData {
 
     @Id
     private Integer id;
